@@ -94,6 +94,84 @@
 
             </section>
 
+            <!-- Data description -->
+            <section>
+              
+            </section>
+
+            <!-- time series processing in clojure -->
+            <section>
+
+              <section>
+                <h2>Map process across sub-blocks</h2>
+                <ol>
+					   <li class="fragment">Break detection</li>
+					   <li class="fragment">Permutation entropy</li>
+				    </ol>
+              </section>
+
+              <section>
+                <h3>Break detection</h3>
+                <img width="800" height="500" src="break.png" alt="break">
+              </section>
+
+              <section>
+                <h3>Supporting functions to collect characteristics of sub-blocks</h3>
+	             <p align="left">
+		            <code class="clojure">
+			           <pre>
+(defn pseudoinverse
+  "returns the pseudoinverse of a matrix `x`; the coefficient vector
+  of OLS is the dependent variable vector premultiplied by the
+  pseudoinverse of the cofactor matrix `x`."
+  [x]
+  {:pre [(i/matrix? x)]}
+  (let [xt (i/trans x)]
+    (i/mmult (i/solve (i/mmult xt x)) xt)))
+
+(defn grab-trend
+  "returns the trend coefficient from an OLS regression of a from an
+  ordinary least squares regression on an intercept and time step."
+  [pseudo-trend-mat coll]
+  (let [v (i/matrix coll)]
+    (second (i/mmult pseudo-trend-mat v))))
+			           </pre>
+		            </code>
+	             </p>
+              </section>
+
+              <section>
+                <h3>Collect trends across sub-blocks</h3>
+	             <p align="left">
+		            <code class="clojure">
+			           <pre>
+(defn windowed-trend
+  "returns a vector of short-term trend coefficients of the time 
+  series, with supplied sub-block length"
+  [block-len ts]
+  (let [pseudo-mat (pseudoinverse (trend-mat block-len))]
+    (map (partial grab-trend pseudo-mat)
+         (partition block-len 1 ts))))
+
+(defn short-stat
+  "returns a single value indicating the largest, short-term drop in 
+  the supplied time series, according to sub-block length parameters."
+  [long-block short-block ts]
+  (->> (windowed-trend long-block ts)
+       (utils/moving-average short-block)
+       (reduce min)))
+			           </pre>
+		            </code>
+	             </p>
+              </section>
+
+            </section>
+
+            <!-- search for parameters in a distributed way -->
+            <section>
+              
+            </section>
+
 			</div>
 
 		</div>
