@@ -77,6 +77,20 @@
 
             </section>                 
 
+            <!-- I intend to show features of the FORMA processing that -->
+            <!-- illustrate why Clojure is particularly suitable for the steps -->
+
+            <!-- Mapping across subblocks.  Map acros partitions, and
+            then reduce over the time dependent characteristics for a
+            single attribute to represent the dynamic attributes of
+            the time-series -->
+
+            <!-- splitting processing up by parameter vector (to search for -->
+            <!-- good parameters) or by NDVI time series to extract the -->
+            <!-- characteristics -->
+
+            <!-- collect the characteristics by ecoregion to compare them -->
+
             <!-- Global forest watch website -->
             <section>
               <img width="900" height="650" src="http://i.imgur.com/u6TJA.png" alt="gfw">
@@ -155,10 +169,9 @@
 
 (defn short-stat
   "returns a single value indicating the largest, short-term drop in 
-  the supplied time series, according to sub-block length parameters."
-  [long-block short-block ts]
+  the supplied time series, according to sub-block length parameter."
+  [long-block ts]
   (->> (windowed-trend long-block ts)
-       (utils/moving-average short-block)
        (reduce min)))
 			           </pre>
 		            </code>
@@ -208,3 +221,5 @@
 
 	</body>
 </html>
+
+
