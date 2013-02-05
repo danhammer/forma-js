@@ -51,7 +51,7 @@
 (defn rmvn-chol
   "generates an (N x k) data set that is distributed joint normal,
   according to the supplied variance-covariance incanter matrix;
-  default is an (N x 3) independently normal data set."
+  default is an (N x 5) independently normal data set."
   [N & {:keys [vcov-mat] :or {vcov-mat (vcov-fn)}}]
   (let [Q (i/decomp-cholesky vcov-mat)
         k (second (i/dim Q))
@@ -67,9 +67,8 @@
 	             <p align="left">
 		            <code class="clojure">
 			           <pre>
-(def X (rmvn-chol 1000 :vcov-mat (vcov-fn)))
-
-(map s/variance (i/trans X)))  => (1.031 0.978 1.024 0.976 0.971)
+(map s/variance 
+     (i/trans (rmvn-chol 1000))))  => (1.031 0.978 1.024 0.976 0.971)
 			           </pre>
 		            </code>
 	             </p>
@@ -77,8 +76,18 @@
 
             </section>                 
 
-            <!-- I intend to show features of the FORMA processing that -->
-            <!-- illustrate why Clojure is particularly suitable for the steps -->
+            <!-- Any viable conservation effort depends on open and
+            accessible information on forest clearing activity -->
+
+            <!-- Everything, from raw data, code, to output is open -->
+
+            <!-- Clojure supported this openness. -->
+
+            <!-- It was also the right tool, the natural tool for other reasons -->
+
+            <!-- I intend to show features of the FORMA processing
+            that illustrate why Clojure is particularly suitable for
+            the steps -->
 
             <!-- Mapping across subblocks.  Map acros partitions, and
             then reduce over the time dependent characteristics for a
@@ -95,6 +104,25 @@
             <section>
               <img width="900" height="650" src="http://i.imgur.com/u6TJA.png" alt="gfw">
             </section>                 
+
+            <!-- Deforestation is a problem -->
+				<section>
+
+				  <section>
+					 <h2>Deforestation accounts for 12% of annual greenhouse gas emissions</h2>
+				  </section>
+
+				  <section>
+					 <h2>Deforestation is accelerating</h2>
+                <img width="800" height="300" src="total-rate.png" alt="rate">
+				  </section>
+
+				  <section>
+					 <h2>... and dispersing</h2>
+                <img width="800" height="300" src="iso-entropy.png" alt="entropy">
+				  </section>
+
+				</section>
 
             <!-- Features of the system -->
             <section>
@@ -160,8 +188,8 @@
 		            <code class="clojure">
 			           <pre>
 (defn windowed-trend
-  "returns a vector of short-term trend coefficients of the time 
-  series, with supplied sub-block length"
+  "returns a vector of short-term trend coefficients for each partition 
+  of the supplied time series (each with length `block-len`)"
   [block-len ts]
   (let [pseudo-mat (pseudoinverse (trend-mat block-len))]
     (map (partial grab-trend pseudo-mat)
