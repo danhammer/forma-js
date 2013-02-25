@@ -99,7 +99,6 @@
             </section>                 
 
 
-
             <section>            
 
               <!-- Features of the system -->
@@ -216,7 +215,78 @@
 
             <!-- search for parameters in a distributed way -->
             <section>
-              
+
+              <section>
+                <img width="650" height="650" src="raster1.png" alt="raster">
+              </section>
+
+              <section>
+                <img width="650" height="650" src="raster2.png" alt="raster">
+              </section>
+
+              <section>
+	             <p align="left">
+		            <code class="clojure">
+			           <pre>
+(defn walk-matrix
+  "Returns a sequence of matrices, after walking along the rows and
+  columns of the given matrix a the specified window size and
+  returning all window-by-window snapshots."
+  [m window]
+  (mapcat (comp (partial apply map vector)
+                (partial map (partial partition window 1)))
+          (partition window 1 m)))
+			           </pre>
+		            </code>
+	             </p>
+              </section>                 
+
+              <section>
+	             <p align="left">
+		            <code class="clojure">
+			           <pre>
+      (def mat
+        [[ 0    0    0    0    0    0    0    1    1     1 ]
+         [ 0    0    0    1    0    0    0    0    0     1 ]
+         [ 0    0    0    0    0    0    0    0    0     0 ]
+         [ 0    0    0    0    0    0    0    0    0     0 ]
+         [ 0    0    0    0    0    0    0    0    0     0 ]
+         [ 0    0    0    0    0    0    0    1    1     0 ]
+         [ 0    0    0    0    0    0    0    1    1     0 ]
+         [ 1    0    0    0    0    0    0    1    0     0 ]
+         [ 0    1    0    0    0    0    0    0    0     0 ]
+         [ 1    1    0    0    0    0    0    0    0     0 ]])
+			           </pre>
+		            </code>
+	             </p>
+              </section>                 
+
+              <section>
+	             <p align="left">
+		            <code class="clojure">
+			           <pre>
+(defn window-sum
+  "sum the values of all pixels within supplied sub-window."
+  [sub-mat]
+  (reduce + (flatten sub-mat)))
+
+
+
+(map window-sum
+     (walk-matrix mat 3))
+			           </pre>
+		            </code>
+	             </p>
+              </section>                 
+
+              <section>
+                <img width="650" height="650" src="spatial-raw.png" alt="raster">
+              </section>
+
+              <section>
+                <img width="650" height="650" src="spatial-smooth.png" alt="raster">
+              </section>
+
             </section>
 
 			</div>
