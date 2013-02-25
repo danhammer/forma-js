@@ -40,7 +40,7 @@ ndvi <- c(0.9, 0.89, 0.88, 0.88, 0.89, 0.9, 0.89, 0.89, 0.87, 0.88,
 
 date.range <- forma.date(1:length(ndvi))
 
-png(file = "../../ndvi.png", width = 1000, height = 650)
+png(file = "../../images/ndvi.png", width = 1000, height = 650)
 par(bg = NA, bty = 'n')
 plot(date.range,
      ndvi,
@@ -68,7 +68,7 @@ blockLinear <- function(start.idx, len = 20) {
         lwd = 3)
 }
 
-png(file = "../../ndvi-breaks.png", width = 1000, height = 650)
+png(file = "../../images/ndvi-breaks.png", width = 1000, height = 650)
 par(bg = NA, bty = 'n')
 plot(date.range,
      ndvi,
@@ -93,7 +93,7 @@ blockLinear(140)
 
 dev.off()
 
-png(file = "../../ndvi-breaks2.png", width = 1000, height = 650)
+png(file = "../../images/ndvi-breaks2.png", width = 1000, height = 650)
 par(bg = NA, bty = 'n')
 plot(date.range,
      ndvi,
@@ -114,7 +114,7 @@ for (i in  seq(1, 179)) {
 dev.off()
 
 load("data/total.Rda")
-png(file = "../../total-defor.png", width = 1000, height = 400)
+png(file = "../../images/total-defor.png", width = 1000, height = 400)
 par(bg = NA, bty = 'n')
 plot(g.data$date,
      g.data$rate,
@@ -130,7 +130,7 @@ plot(g.data$date,
 dev.off()
 
 load("data/entropy.Rda")
-png(file = "../../entropy.png", width = 1000, height = 400)
+png(file = "../../images/entropy.png", width = 1000, height = 400)
 par(bg = NA, bty = 'n')
 plot(a$date,
      a$entropy,
