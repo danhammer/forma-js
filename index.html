@@ -289,6 +289,41 @@
 
             </section>
 
+
+            <!-- map-reduce and find beta-vectorg -->
+            <section>
+
+              <section>
+                <h1>Using Cascalog</h1>
+                <h3 style="color:#33CCFF">to classify pixels based on time series attributes</h3>
+                <h1>solved our problems</h1>                
+              </section>
+
+              <section>
+	             <p align="left">
+		            <code class="clojure">
+			           <pre>
+(defn beta-vector
+  "returns the parameter vector for the logistic "
+  [label-row feature-mat]
+  (let [beta-init (repeat 0 (i/ncol feature-mat))]
+    (loop [beta beta-init
+           beta-diff 100]
+      (if (< beta-diff 1e-8)
+        (vec (.toArray beta))
+        (let [update (beta-update beta label-row feature-mat rdg-cons)
+              beta-new (.addRowVector beta update)
+              diff (.distance2 beta beta-new)]
+          (recur
+           beta-new
+           diff))))))
+			           </pre>
+		            </code>
+	             </p>
+              </section>                 
+
+            </section>
+
 			</div>
 
 		</div>
