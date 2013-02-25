@@ -203,6 +203,44 @@
 	             </p>
               </section>                 
 
+              <section>                 
+                <h2>Same framework is extensible to more complex operations on 1D arrays</h2>
+                <h3 style="color:#33CCFF">for applications in information theory</h3>
+              </section>                 
+
+              <section>
+	             <p align="left">
+		            <code class="clojure">
+			           <pre>
+(defn- ordinal-idx
+  "Returns a sequence of indices that rank the values of the supplied
+  time series in ascending order.  If there are equal values, the
+  order at which the values appear is used to order the indices."
+  [sub-ts]
+  (let [indexed-vector (map-indexed vector sub-ts)]
+    (map first
+         (sort-by second indexed-vector))))
+			           </pre>
+		            </code>
+	             </p>
+              </section>                 
+
+              <section>
+	             <p align="left">
+		            <code class="clojure">
+			           <pre>
+(defn permutation-count
+  "Returns a map of the ordinal sequences of length `D` and their
+  count; note that the offset is fixed at 1"
+  [D ts]
+  (let [subs (partition D 1 ts)]
+    (frequencies (map ordinal-idx subs))))
+			           </pre>
+		            </code>
+	             </p>
+              </section>                 
+
+
             </section>
 
 
@@ -292,12 +330,11 @@
               <h2 style="color:#33CCFF">of a three-dimensional array</h2>
             </section>
 
-            <!-- map-reduce and find beta-vectorg -->
             <section>
 
               <section>
                 <h1>Using Cascalog</h1>
-                <h3 style="color:#33CCFF">to classify pixels based on time series attributes</h3>
+                <h3 style="color:#33CCFF">to collect time series attributes and classify pixels</h3>
                 <h1>solved our problems</h1>                
               </section>
 
@@ -305,15 +342,16 @@
 	             <p align="left">
 		            <code class="clojure">
 			           <pre>
-(defn beta-vector
-  "returns the parameter vector for the logistic "
+(defn beta-vector 
+  "returns the parameter vector for a logistic regression of
+  `label-row` on the design matrix `feature-mat`"
   [label-row feature-mat]
   (let [beta-init (repeat 0 (i/ncol feature-mat))]
     (loop [beta beta-init
            beta-diff 100]
       (if (< beta-diff 1e-8)
         (vec (.toArray beta))
-        (let [update (beta-update beta label-row feature-mat rdg-cons)
+        (let [update (beta-update beta label-row feature-mat)
               beta-new (.addRowVector beta update)
               diff (.distance2 beta beta-new)]
           (recur
