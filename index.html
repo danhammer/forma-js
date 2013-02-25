@@ -41,46 +41,6 @@
 					</p>
 				</section>
 
-            <section>
-
-              <section>
-				    <h3>Matrix algebra in Clojure</h3>
-	             <p align="left">
-		            <code class="clojure">
-			           <pre>
-(defn rmvn-chol
-  "generates an (N x k) data set that is distributed joint normal,
-  according to the supplied variance-covariance incanter matrix;
-  default is an (N x 5) independently normal data set."
-  [N & {:keys [vcov-mat] :or {vcov-mat (vcov-fn)}}]
-  (let [Q (i/decomp-cholesky vcov-mat)
-        k (second (i/dim Q))
-        m (take k (repeatedly #(s/sample-normal N)))]
-    (i/mmult (i/trans (i/bind-columns m)) Q)))
-			           </pre>
-		            </code>
-	             </p>
-              </section>                 
-
-              <section>
-				    <h3>Check variances, all equal to one</h3>
-	             <p align="left">
-		            <code class="clojure">
-			           <pre>
-(map s/variance 
-     (i/trans (rmvn-chol 1000))))  => (1.031 0.978 1.024 0.976 0.971)
-			           </pre>
-		            </code>
-	             </p>
-              </section>                 
-
-            </section>                 
-
-            <!-- Any viable conservation effort depends on open and
-            accessible information on forest clearing activity -->
-
-            <!-- Everything, from raw data, code, to output is open -->
-
             <!-- Clojure supported this openness. -->
 
             <!-- It was also the right tool, the natural tool for other reasons -->
@@ -100,11 +60,6 @@
 
             <!-- collect the characteristics by ecoregion to compare them -->
 
-            <!-- Global forest watch website -->
-            <section>
-              <img width="900" height="650" src="http://i.imgur.com/u6TJA.png" alt="gfw">
-            </section>                 
-
             <!-- Deforestation is a problem -->
 				<section>
 
@@ -114,99 +69,150 @@
 
 				  <section data-state="alert">
 					 <h2>Deforestation is accelerating</h2>
-                <img width="800" height="300" src="total-rate.png" alt="rate">
+                <img width="1000" height="400" src="total-defor.png" alt="rate">
 				  </section>
 
 				  <section data-state="alert">
 					 <h2>... and dispersing</h2>
-                <img width="800" height="300" src="iso-entropy.png" alt="entropy">
+                <img width="1000" height="400" src="entropy.png" alt="entropy">
+				  </section>
+
+				  <section>
+					 <h2>Any viable effort to curb deforestation rates will rely on open information</h2>
 				  </section>
 
 				</section>
 
-            <!-- Features of the system -->
+            <!-- Global forest watch website -->
             <section>
-              <h3>Features of the FORMA data</h3>
 
-              <ol>
-					 <li class="fragment">Pan-tropical (58 countries)</li>
-					 <li class="fragment">500m resolution (2 billion pixels)</li>
-					 <li class="fragment">16-day updates</li>
-				  </ol>
-
-            </section>
-
-            <!-- Data description -->
-            <section>
-              
-            </section>
-
-            <!-- time series processing in clojure -->
-            <section>
+				  <section>
+                <img width="900" height="650" src="http://i.imgur.com/u6TJA.png" alt="gfw">
+				  </section>
 
               <section>
-                <h2>Map process across sub-blocks</h2>
+                <h1>Everything</h1>
+                <h3 style="color:#33CCFF">from raw data to analysis to mapping to website</h3>
+                <h1>is open source</h1>
+              </section>
+
+            </section>                 
+
+
+
+            <section>            
+
+              <!-- Features of the system -->
+              <section>
+                <h2>Features of the FORMA data</h2>
                 <ol>
-					   <li class="fragment">Break detection</li>
-					   <li class="fragment">Permutation entropy</li>
+					   <li class="fragment">Pan-tropical (58 countries)</li> <br>
+					   <li class="fragment">500m resolution (2 billion pixels)</li> <br>
+					   <li class="fragment">16-day updates (271 through Dec. 2012)</li> <br>
 				    </ol>
               </section>
 
+              <!-- Data description -->
               <section>
-                <h3>Break detection</h3>
-                <img width="800" height="500" src="break.png" alt="break">
-              </section>
-
-              <section>
-                <h3>Supporting functions to collect characteristics of sub-blocks</h3>
-	             <p align="left">
-		            <code class="clojure">
-			           <pre>
-(defn pseudoinverse
-  "returns the pseudoinverse of a matrix `x`; the coefficient vector
-  of OLS is the dependent variable vector premultiplied by the
-  pseudoinverse of the cofactor matrix `x`."
-  [x]
-  {:pre [(i/matrix? x)]}
-  (let [xt (i/trans x)]
-    (i/mmult (i/solve (i/mmult xt x)) xt)))
-
-(defn grab-trend
-  "returns the trend coefficient from an OLS regression of a from an
-  ordinary least squares regression on an intercept and time step."
-  [pseudo-trend-mat coll]
-  (let [v (i/matrix coll)]
-    (second (i/mmult pseudo-trend-mat v))))
-			           </pre>
-		            </code>
-	             </p>
-              </section>
-
-              <section>
-                <h3>Collect trends across sub-blocks</h3>
-	             <p align="left">
-		            <code class="clojure">
-			           <pre>
-(defn windowed-trend
-  "returns a vector of short-term trend coefficients for each partition 
-  of the supplied time series (each with length `block-len`)"
-  [block-len ts]
-  (let [pseudo-mat (pseudoinverse (trend-mat block-len))]
-    (map (partial grab-trend pseudo-mat)
-         (partition block-len 1 ts))))
-
-(defn short-stat
-  "returns a single value indicating the largest, short-term drop in 
-  the supplied time series, according to sub-block length parameter."
-  [long-block ts]
-  (->> (windowed-trend long-block ts)
-       (reduce min)))
-			           </pre>
-		            </code>
-	             </p>
+                <h2>Data sources</h2>
+                <ol>
+					   <li class="fragment">Spectral data from MODIS sensor</li> <br>
+					   <li class="fragment">Precipitation data from NOAA</li> <br>
+					   <li class="fragment">Thermal anomalies from UMD</li> <br>
+					   <li class="fragment">Ecoregions from WWF</li> <br>
+                  <li class="fragment">Training deforestation data from SDSU</li> <br>
+				    </ol>              
               </section>
 
             </section>
+
+            <!-- Show that the partition framework to analyze the
+            spectral time series is well-suited to Clojure -->
+            <section>
+
+              <section>
+                <img width="1000" height="650" src="ndvi.png" alt="ndvi">
+              </section>
+
+              <section>
+                <img width="1000" height="650" src="ndvi-breaks.png" alt="ndvi-break">
+              </section>                                  
+
+              <section>
+                <img width="1000" height="650" src="ndvi-breaks2.png" alt="ndvi-break-2">
+              </section>                                  
+
+              <section>
+	             <p align="left">
+		            <code class="clojure">
+			           <pre>
+(require '[incanter.core :as i])
+
+(defn trend-mat
+  "returns a (T x 2) matrix with an intercept and linear progression."
+  [T]
+  (i/bind-columns (repeat T 1) (range T)))
+
+(defn pseudoinverse
+  "returns the pseudo-inverse of the supplied matrix `x` to be used in
+  ordinary least squares regression."
+  [x]
+  (let [xt (i/trans x)]
+    (i/mmult (i/solve (i/mmult xt x)) xt)))
+			           </pre>
+		            </code>
+	             </p>
+              </section>                 
+
+              <section>
+	             <p align="left">
+		            <code class="clojure">
+			           <pre>
+(defn grab-trend
+  "premultiplies the supplied time-series by the OLS trend
+  pseudomatrix and returns the trend coefficient"
+  [pseudo-mat ts]
+  {:pre [= (count ts) (i/nrow pseudo-mat)]}
+  (let [ts-mat (i/matrix ts)]
+    (second (i/mmult pseudo-mat ts-mat))))
+
+(defn windowed-trend
+  "accepts the partition length and the full time series and returns a
+  sequence of short-term linear trend coefficients."
+  [block-len ts]
+  (let [pseudo-mat (-> block-len trend-mat pseudoinverse)]
+    (map (partial grab-trend pseudo-mat)
+         (partition block-len 1 ts))))
+			           </pre>
+		            </code>
+	             </p>
+              </section>                 
+
+              <section>
+	             <p align="left">
+		            <code class="clojure">
+			           <pre>
+(defn short-stat
+  "returns the minimum (most negative) short term trend coefficients
+  over the full time series."
+  [block-param ts]
+  (->> (windowed-trend block-param ts)
+       (reduce min)))
+
+
+(facts
+  "demonstrate that short-stat reduces the dimension of the ndvi
+  time series"
+  (count ndvi) => 199
+  (short-stat 24 ndvi) => -63.3346)
+			           </pre>
+		            </code>
+	             </p>
+              </section>                 
+
+            </section>
+
+
 
             <!-- search for parameters in a distributed way -->
             <section>
