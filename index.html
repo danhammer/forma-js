@@ -292,6 +292,11 @@
          [ 1    0    0    0    0    0    0    1    0     0 ]
          [ 0    1    0    0    0    0    0    0    0     0 ]
          [ 1    1    0    0    0    0    0    0    0     0 ]])
+
+(defn window-sum
+  "sum the values of all pixels within supplied sub-window."
+  [sub-mat]
+  (reduce + (flatten sub-mat)))
 			           </pre>
 		            </code>
 	             </p>
@@ -301,13 +306,6 @@
 	             <p align="left">
 		            <code class="clojure">
 			           <pre>
-(defn window-sum
-  "sum the values of all pixels within supplied sub-window."
-  [sub-mat]
-  (reduce + (flatten sub-mat)))
-
-
-
 (map window-sum
      (walk-matrix mat 3))
 			           </pre>
