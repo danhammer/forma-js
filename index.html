@@ -236,16 +236,15 @@
     (frequencies (map ordinal-idx subs))))
 
 (fact
-  "count the frequencies of each of the (3 = 6) possible three-
+  "count the frequencies of each of the (3! = 6) possible three-
   length sub-sequences observed in the supplied time series"
-
-  (permutation-count 3 [8 7 8 9 9 8 5 7 6 5])
-    => {(1 0 2) 1
-        (0 1 2) 2
-        (2 0 1) 1
-        (2 1 0) 2
-        (1 2 0) 1
-        (0 2 1) 1})
+  (permutation-count 3 [ 8 7 8 9 9 8 5 7 6 5 ])
+    => \{ (1 0 2) 1
+          (0 1 2) 2
+          (2 0 1) 1
+          (2 1 0) 2
+          (1 2 0) 1
+          (0 2 1) 1 \})
 			           </pre>
 		            </code>
 	             </p>
