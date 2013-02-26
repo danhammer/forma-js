@@ -230,11 +230,21 @@
 		            <code class="clojure">
 			           <pre>
 (defn permutation-count
-  "Returns a map of the ordinal sequences of length `D` and their
-  count; note that the offset is fixed at 1"
+  "returns a map of the ordinal D- sequences and their count"
   [D ts]
   (let [subs (partition D 1 ts)]
     (frequencies (map ordinal-idx subs))))
+
+(fact
+  "count the frequencies of each of the (3! = 6) possible three-
+  length sub-sequences observed in the supplied time series"
+  (permutation-count 3 [8 7 8 9 9 8 5 7 6 5])
+    => {(1 0 2) 1,
+        (0 1 2) 2,
+        (2 0 1) 1,
+        (2 1 0) 2,
+        (1 2 0) 1,
+        (0 2 1) 1})
 			           </pre>
 		            </code>
 	             </p>
@@ -282,16 +292,16 @@
 		            <code class="clojure">
 			           <pre>
       (def mat
-        [[ 0    0    0    0    0    0    0    1    1     1 ]
-         [ 0    0    0    1    0    0    0    0    0     1 ]
-         [ 0    0    0    0    0    0    0    0    0     0 ]
-         [ 0    0    0    0    0    0    0    0    0     0 ]
-         [ 0    0    0    0    0    0    0    0    0     0 ]
-         [ 0    0    0    0    0    0    0    1    1     0 ]
-         [ 0    0    0    0    0    0    0    1    1     0 ]
-         [ 1    0    0    0    0    0    0    1    0     0 ]
-         [ 0    1    0    0    0    0    0    0    0     0 ]
-         [ 1    1    0    0    0    0    0    0    0     0 ]])
+        [[ 0    0    0    0    0    0    0    1    1    1 ]
+         [ 0    0    0    1    0    0    0    0    0    1 ]
+         [ 0    0    0    0    0    0    0    0    0    0 ]
+         [ 0    0    0    0    0    0    0    0    0    0 ]
+         [ 0    0    0    0    0    0    0    0    0    0 ]
+         [ 0    0    0    0    0    0    0    1    1    0 ]
+         [ 0    0    0    0    0    0    0    1    1    0 ]
+         [ 1    0    0    0    0    0    0    1    0    0 ]
+         [ 0    1    0    0    0    0    0    0    0    0 ]
+         [ 1    1    0    0    0    0    0    0    0    0 ]])
 
 (defn window-sum
   "sum the values of all pixels within supplied sub-window."
@@ -306,8 +316,20 @@
 	             <p align="left">
 		            <code class="clojure">
 			           <pre>
-(map window-sum
-     (walk-matrix mat 3))
+(fact 
+  "the returned vector will identify dense clusters; note that 
+  a correction must be applied to deal with edge cases"
+  (map window-sum
+       (walk-matrix mat 3))
+
+    => [ 0 1 1 1 0 1 2 4
+         0 1 1 1 0 0 0 1
+         0 0 0 0 0 0 0 0
+         0 0 0 0 0 1 2 2
+         0 0 0 0 0 2 4 4
+         1 0 0 0 0 3 5 5
+         2 1 0 0 0 2 3 3
+         4 2 0 0 0 1 1 1 ])
 			           </pre>
 		            </code>
 	             </p>
