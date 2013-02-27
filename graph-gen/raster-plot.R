@@ -72,3 +72,26 @@ cubedraw(rR, min = 0, max = 75)
 cubedraw(rR, min = 80, max = 155)
 cubedraw(rR, min = 180, max = 255)
 dev.off()
+
+
+z <- 120 + rnorm(450, sd = 150)
+x <- 120 + rnorm(450, sd = 150)
+y <- 120 + rnorm(450, sd = 150)
+
+png(file = "../images/joke.png", width = 850, height = 850)
+par(bg = NA, bty = 'n')
+scatterplot3d(x, y, z, box = FALSE, angle = 24,
+              xlim = c(-50, 300), ylim = c(-50, 300), zlim = c(-50, 300),
+              xlab = "", ylab = "", zlab = "",
+              col.axis = "#33CCFF",
+              type = "l",
+              lwd = 5,
+              cex = 3,
+              color = "#33CCFF",
+              col.lab  = "#33CCFF",
+              tick.marks = FALSE,
+              grid = FALSE,
+              axis = FALSE,
+              cex.axis = 1.5,
+              cex.lab  = 1.3)
+dev.off()
