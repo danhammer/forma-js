@@ -50,9 +50,9 @@ cubedraw <- function(res3d, min = 0, max = 100, cex = 0) {
   res3d$points3d(cub[c(2,8,4,8,6), ], cex = cex, type = "l", lty = 3, col = "#FF6666", lwd = 3)
 }
 
-z <- 120 + rnorm(70, sd = 75)
-x <- 120 + rnorm(70, sd = 75)
-y <- 120 + rnorm(70, sd = 75)
+z <- 120 + rnorm(100, sd = 75)
+x <- 120 + rnorm(100, sd = 75)
+y <- 120 + rnorm(100, sd = 75)
 
 png(file = "../images/cube.png", width = 850, height = 850)
 par(bg = NA, bty = 'n')

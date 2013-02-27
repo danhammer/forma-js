@@ -371,13 +371,14 @@
             <section>
               <h2  style="color:#33CCFF">Estimation</h2>
 
-              Let \( z_i \) be a binary variable indicating the event
-              that pixel \( i \) was deforested, and let \( {\bf
-              v}_i \) be a vector of time series attributes.
+              Let \( z_{it} \) be a binary variable indicating the event
+              that pixel \( i \) was deforested in time period \( t \), and let \( {\bf v}_{it}
+              \) be a vector of time series attributes.  Then we apply
+              the functional form:
 
               <br></br>
 
-               <p>\[ \mathbb{P}(z_i | {\bf v}_i; \beta) = \frac{e^{\beta{\bf v}_i}}{1 + e^{\beta{\bf v}_i}} \] </p>
+               <p>\[ \mathbb{P}(z_{it} | {\bf v}_{it}; \beta) = \frac{e^{\beta{\bf v}_{it}}}{1 + e^{\beta{\bf v}_{it}}} \] </p>
 
             </section>
 
@@ -416,7 +417,29 @@
             </section>
 
             <section>
-              <iframe src="http://gfw-staging.herokuapp.com/" name="GFW" scrolling="no" width="1500" height="1000"> GFW site requires password until public release </iframe>
+              <section>
+                <h2>Loading the data into CartoDB</h2>
+                <h2  style="color:#33CCFF">using cartodb-clj</h2>
+	             <p align="left">
+		            <code class="clojure">
+			           <pre>
+(use '[cartodb.playground :only (insert-rows)])
+
+(let [table-name "gfw"
+      account-name "wri"]
+  (apply insert-rows account-name creds table-name data))
+			           </pre>
+		            </code>
+	             </p>
+              </section>
+
+              <section>
+                <iframe src="https://wri-01.cartodb.com/tables/208/" name="gfw-table" scrolling="no" width="1500" height="1000"> cartodb creds required </iframe>
+              </section>
+
+              <section>
+                <iframe src="http://gfw-staging.herokuapp.com/" name="GFW" scrolling="no" width="1500" height="1000"> GFW site requires password until public release </iframe>
+              </section>
             </section>
 
 			</div>
