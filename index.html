@@ -142,13 +142,10 @@
 (require '[incanter.core :as i])
 
 (defn trend-mat
-  "returns a (T x 2) matrix with an intercept and linear progression."
   [T]
   (i/bind-columns (repeat T 1) (range T)))
 
 (defn pseudoinverse
-  "returns the pseudo-inverse of the supplied matrix `x` to be used in
-  ordinary least squares regression."
   [x]
   (let [xt (i/trans x)]
     (i/mmult (i/solve (i/mmult xt x)) xt)))
@@ -162,16 +159,12 @@
 		            <code class="clojure">
 			           <pre>
 (defn grab-trend
-  "premultiplies the supplied time-series by the OLS trend
-  pseudomatrix and returns the trend coefficient"
   [pseudo-mat ts]
   {:pre [= (count ts) (i/nrow pseudo-mat)]}
   (let [ts-mat (i/matrix ts)]
     (second (i/mmult pseudo-mat ts-mat))))
 
 (defn windowed-trend
-  "accepts the partition length and the full time series and returns a
-  sequence of short-term linear trend coefficients."
   [block-len ts]
   (let [pseudo-mat (-> block-len trend-mat pseudoinverse)]
     (map (partial grab-trend pseudo-mat)
@@ -186,16 +179,12 @@
 		            <code class="clojure">
 			           <pre>
 (defn short-stat
-  "returns the minimum (most negative) short term trend coefficients
-  over the full time series."
   [block-param ts]
   (->> (windowed-trend block-param ts)
        (reduce min)))
 
 
 (facts
-  "demonstrate that short-stat reduces the dimension of the ndvi
-  time series"
   (count ndvi) => 199
   (short-stat 24 ndvi) => -63.3346)
 			           </pre>
@@ -213,9 +202,6 @@
 		            <code class="clojure">
 			           <pre>
 (defn- ordinal-idx
-  "Returns a sequence of indices that rank the values of the supplied
-  time series in ascending order.  If there are equal values, the
-  order at which the values appear is used to order the indices."
   [sub-ts]
   (let [indexed-vector (map-indexed vector sub-ts)]
     (map first
@@ -230,14 +216,11 @@
 		            <code class="clojure">
 			           <pre>
 (defn permutation-count
-  "returns a map of the ordinal D- sequences and their count"
   [D ts]
   (let [subs (partition D 1 ts)]
     (frequencies (map ordinal-idx subs))))
 
 (fact
-  "count the frequencies of each of the (3! = 6) possible three-
-  length sub-sequences observed in the supplied time series"
   (permutation-count 3 [ 8 7 8 9 9 8 5 7 6 5 ])
     => \{ (1 0 2) 1
           (0 1 2) 2
@@ -275,9 +258,6 @@
 		            <code class="clojure">
 			           <pre>
 (defn walk-matrix
-  "Returns a sequence of matrices, after walking along the rows and
-  columns of the given matrix a the specified window size and
-  returning all window-by-window snapshots."
   [m window]
   (mapcat (comp (partial apply map vector)
                 (partial map (partial partition window 1)))
@@ -304,7 +284,6 @@
          [ 1    1    0    0    0    0    0    0    0    0 ]])
 
 (defn window-sum
-  "sum the values of all pixels within supplied sub-window."
   [sub-mat]
   (reduce + (flatten sub-mat)))
 			           </pre>
@@ -317,8 +296,6 @@
 		            <code class="clojure">
 			           <pre>
 (fact 
-  "the returned vector will identify dense clusters; note that 
-  a correction must be applied to deal with edge cases"
   (map window-sum
        (walk-matrix mat 3))
 
@@ -395,8 +372,6 @@
 		            <code class="clojure">
 			           <pre>
 (defn beta-vector 
-  "returns the parameter vector for a logistic regression of
-  `label-row` on the design matrix `feature-mat`"
   [label-row feature-mat]
   (let [beta-init (repeat 0 (i/ncol feature-mat))]
     (loop [beta beta-init
