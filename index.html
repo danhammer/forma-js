@@ -312,28 +312,22 @@
             </section>
 
             <section>
-              <h2  style="color:#33CCFF">Estimation</h2>
-
-              Let \( z_{it} \) be a binary variable indicating the event
-              that pixel \( i \) was deforested in time period \( t \), and let \( {\bf v}_{it}
-              \) be a vector of time series attributes.  Then we apply
-              the functional form:
-
-              <br></br>
-
-               <p>\[ \mathbb{P}(z_{it} | {\bf v}_{it}; \beta) = \frac{e^{\beta{\bf v}_{it}}}{1 + e^{\beta{\bf v}_{it}}} \] </p>
-
-            </section>
-
-            <section>
 
               <section>
-                <h1>Using Cascalog</h1>
-                <h3 style="color:#33CCFF">to collect time series attributes and classify pixels</h3>
-                <h1>solved our problems</h1>                
+                <h2  style="color:#33CCFF">Estimation</h2>
+                <ol>
+                  <li> Collect training data into a single vector, where each element \( z_i \) indicates the event of deforestation in pixel \( i \) </li>
+                  <li> Collect all characteristics of the time series spanning the training period for each pixel \( i \) in \( {\bf v}_{i} \). </li>
+                  <li> Estimate \( \beta \) according to the logistic model:
+                    <br></br>
+                    <p>\[ \mathbb{P}(z_{it} \hspace{2pt} | \hspace{2pt} {\bf v}_{it}; \beta) = \frac{e^{\beta{\bf v}_{it}}}{1 + e^{\beta{\bf v}_{it}}} \] </p>
+                  </li>
+                </ol>
+
               </section>
 
               <section>
+                Estimation requires attributes for all pixels within a certain geographic area, defined by ecoregions
 	             <p align="left">
 		            <code class="clojure">
 			           <pre>
@@ -354,6 +348,40 @@
 		            </code>
 	             </p>
               </section>                 
+
+            </section>
+
+            <section>
+
+              <section>
+                <h1>Using Cascalog</h1>
+                <h3 style="color:#33CCFF">to collect time series attributes and classify pixels</h3>
+                <h1>solved our problems</h1>                
+              </section>
+
+              <section>
+	             <p align="left">
+		            <code class="clojure">
+			           <pre>
+(use 'cascalog.api)
+
+(defbufferop estimate-beta
+  [tuples]
+  [(beta-vector (DoubleMatrix. (map first tuples))
+                (DoubleMatrix. (map second tuples)))])
+
+(defn beta-gen
+  "query to return the beta vector associated with each ecoregion"
+  [label-src timeseries-src]
+  (<- [?eco ?beta]
+      (label-src ?pixel-id ?label)
+      (timeseries-src ?pixel-id ?eco ?ndvi)
+      (create-features ?ndvi :> ?feature-vec)
+      (estimate-beta ?label ?feature-vec :> ?beta)))
+			           </pre>
+		            </code>
+	             </p>
+              </section>
 
             </section>
 
