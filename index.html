@@ -316,9 +316,12 @@
               <section>
                 <h2  style="color:#33CCFF">Estimation</h2>
                 <ol>
-                  <li> Collect training data into a single vector, where each element \( z_i \) indicates the event of deforestation in pixel \( i \) </li>
-                  <li> Collect all characteristics of the time series spanning the training period for each pixel \( i \) in \( {\bf v}_{i} \). </li>
-                  <li> Estimate \( \beta \) according to the logistic model:
+                  <br></br>
+                  <li class="fragment"> Collect training data into a single vector, where each element \( z_i \) indicates the event of deforestation in pixel \( i \) </li>
+                  <br></br>
+                  <li class="fragment"> Collect all characteristics of the time series spanning the training period for each pixel \( i \) in \( {\bf v}_{i} \). </li>
+                  <br></br>
+                  <li class="fragment"> Estimate \( \beta \) according to the logistic model:
                     <br></br>
                     <p>\[ \mathbb{P}(z_{it} \hspace{2pt} | \hspace{2pt} {\bf v}_{it}; \beta) = \frac{e^{\beta{\bf v}_{it}}}{1 + e^{\beta{\bf v}_{it}}} \] </p>
                   </li>
