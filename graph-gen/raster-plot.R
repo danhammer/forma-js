@@ -95,3 +95,17 @@ scatterplot3d(x, y, z, box = FALSE, angle = 24,
               cex.axis = 1.5,
               cex.lab  = 1.3)
 dev.off()
+
+mat <- rev(c(0, 1, 1, 1, 0, 1, 2, 4, 0, 1, 1, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 2, 0, 0, 0, 0, 0, 2, 4, 4, 1, 0, 0, 0, 0, 3, 5, 5, 2, 1, 0, 0, 0, 2, 3, 3, 4, 2, 0, 0, 0, 1, 1, 1))
+
+cols <- sapply(c, function(x) {ifelse(mat > 0, "#33CCFF", 0)})
+
+m <- matrix(1:64, ncol=8)
+png(file = "../images/raster1.png", width = 650, height = 650)
+par(bg = NA, bty = 'n')
+image(1:ncol(m), 1:nrow(m), m,
+      col = cols,
+      xlab="",
+      ylab="",
+      axes = FALSE)
+dev.off()

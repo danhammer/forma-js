@@ -385,6 +385,27 @@
 	             </p>
               </section>
 
+              <section>
+	             <p align="left">
+		            <code class="clojure">
+			           <pre>
+(defn prob-gen
+  [label-src timeseries-src]
+  (let [beta-src (beta-gen label-src timeseries-src)]
+    (<- [?pixel-id ?prob]
+        (beta-src ?eco ?beta)
+        (timeseries-src ?pixel-id ?eco ?ndvi)
+        (create-features ?ndvi :> ?feature-vec)
+        (apply-beta ?feature-vec ?beta :> ?prob))))
+
+(fact
+  (prob-gen labels timeseries) => (produces [[10029102 0.56]
+                                             [12323943 0.24]]))
+			           </pre>
+		            </code>
+	             </p>
+              </section>
+
             </section>
 
             <section>
