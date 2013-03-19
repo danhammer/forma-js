@@ -313,7 +313,7 @@
 
             <section>
 
-              <section>
+              <!-- <section> -->
                 <h2  style="color:#33CCFF">Estimation</h2>
                 <ol>
                   <li class="fragment"> Collect training data into a single vector, where each element \( z_i \) indicates the event of deforestation in pixel \( i \) </li>
@@ -326,31 +326,31 @@
                   </li>
                 </ol>
 
-              </section>
+ <!--              </section> -->
 
-              <section>
-                Estimation requires attributes for all pixels within a certain geographic area, defined by ecoregions
-	             <p align="left">
-		            <code class="clojure">
-			           <pre>
-(defn beta-vector 
-  [label-row feature-mat]
-  (let [beta-init (repeat 0 (i/ncol feature-mat))]
-    (loop [beta beta-init
-           beta-diff 100]
-      (if (< beta-diff 1e-8)
-        (vec (.toArray beta))
-        (let [update (beta-update beta label-row feature-mat)
-              beta-new (.addRowVector beta update)
-              diff (.distance2 beta beta-new)]
-          (recur
-           beta-new
-           diff))))))
-			           </pre>
-		            </code>
-	             </p>
-              </section>                 
-
+<!--               <section> -->
+<!--                 Estimation requires attributes for all pixels within a certain geographic area, defined by ecoregions -->
+<!-- 	             <p align="left"> -->
+<!-- 		            <code class="clojure"> -->
+<!-- 			           <pre> -->
+<!-- (defn beta-vector  -->
+<!--   [label-row feature-mat] -->
+<!--   (let [beta-init (repeat 0 (i/ncol feature-mat))] -->
+<!--     (loop [beta beta-init -->
+<!--            beta-diff 100] -->
+<!--       (if (< beta-diff 1e-8) -->
+<!--         (vec (.toArray beta)) -->
+<!--         (let [update (beta-update beta label-row feature-mat) -->
+<!--               beta-new (.addRowVector beta update) -->
+<!--               diff (.distance2 beta beta-new)] -->
+<!--           (recur -->
+<!--            beta-new -->
+<!--            diff)))))) -->
+<!-- 			           </pre> -->
+<!-- 		            </code> -->
+<!-- 	             </p> -->
+<!--               </section>                  -->
+ 
             </section>
 
             <section>
@@ -366,11 +366,6 @@
 		            <code class="clojure">
 			           <pre>
 (use 'cascalog.api)
-
-(defbufferop estimate-beta
-  [tuples]
-  [(beta-vector (DoubleMatrix. (map first tuples))
-                (DoubleMatrix. (map second tuples)))])
 
 (defn beta-gen
   "query to return the beta vector associated with each ecoregion"
@@ -433,6 +428,12 @@
                 <iframe src="http://gfw-staging.herokuapp.com/" name="GFW" scrolling="no" width="1500" height="1000"> GFW site requires password until public release </iframe>
               </section>
             </section>
+
+				<section>
+					<h3>Thanks!</h3>
+					<p> github.com/danhammer/forma-js </p>
+				</section>
+
 
 			</div>
 
