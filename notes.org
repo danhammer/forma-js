@@ -102,8 +102,17 @@ in posting code.  I think it's valuable to slowly step through this
 one-dimensional example; but I will rush through the rest, just
 highlighting the important results.
 
-We depend heavily on the incanter library for 
+We depend heavily on the incanter library for matrix manipulation.
+The first step in collecting the linear trend of a sub-block is
+building a covariate matrix that is composed of a column of ones, and
+a running index.  Suppose that the block is 24 periods long, or about
+1 year.  The dimension of this matrix is 24 by 2, with the column of
+ones and a running index from 0 to 23.  The linear trend is derived,
+then, from premultiplying the the values of the sub-time series by the
+pseudoinverse of the trend matrix -- and then grabbing the second
+dimension of the output vector which is a 2x1 column vector.  
 
+This same framwork.
 
 Suppose that the trajectory or relative sequencing in one time series
 has some explanatory power in determining the trajectory of sub-blocks

@@ -125,16 +125,14 @@
 		            <code class="clojure">
 			           <pre>
 (defn grab-trend
-  [pseudo-mat ts]
-  {:pre [= (count ts) (i/nrow pseudo-mat)]}
-  (let [ts-mat (i/matrix ts)]
-    (second (i/mmult pseudo-mat ts-mat))))
+  [pseudo-mat sub-ts]
+    (second (i/mmult pseudo-mat sub-ts)))
 
 (defn windowed-trend
-  [block-len ts]
+  [block-len full-ts]
   (let [pseudo-mat (-> block-len trend-mat pseudoinverse)]
     (map (partial grab-trend pseudo-mat)
-         (partition block-len 1 ts))))
+         (partition block-len 1 full-ts))))
 			           </pre>
 		            </code>
 	             </p>
