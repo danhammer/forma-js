@@ -1,22 +1,51 @@
-#+AUTHOR:     
-#+TITLE:      
-#+OPTIONS:     toc:nil num:nil 
-#+LATEX_HEADER: \usepackage{mathrsfs}
-#+LATEX_HEADER: \usepackage{graphicx}
-#+LATEX_HEADER: \usepackage{booktabs}
-#+LATEX_HEADER: \usepackage{dcolumn}
-#+LATEX_HEADER: \usepackage{subfigure}
-#+LATEX_HEADER: \usepackage{setspace}
-#+LATEX_HEADER: \usepackage[margin=1in]{geometry}
-#+LATEX_HEADER: \RequirePackage{fancyvrb}
+% Created 2013-03-19 Tue 09:12
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{fixltx2e}
+\usepackage{graphicx}
+\usepackage{longtable}
+\usepackage{float}
+\usepackage{wrapfig}
+\usepackage{soul}
+\usepackage{textcomp}
+\usepackage{marvosym}
+\usepackage{wasysym}
+\usepackage{latexsym}
+\usepackage{amssymb}
+\usepackage{hyperref}
+\tolerance=1000
+\usepackage{color}
+\usepackage{minted}
+\usepackage{mathrsfs}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{dcolumn}
+\usepackage{subfigure}
+\usepackage{setspace}
+\usepackage[margin=1in]{geometry}
+\RequirePackage{fancyvrb}
+\providecommand{\alert}[1]{\textbf{#1}}
 
-#+LATEX: \renewcommand{\name}[1]{\textcolor{blue}{{\bf #1}}}
-#+LATEX: \renewcommand{\team}[1]{\textcolor{red}{{\bf #1}}}
-#+LATEX: \setlength{\parindent}{0in}
-#+STARTUP: fninline
+\title{}
+\author{}
+\date{\today}
+\hypersetup{
+  pdfkeywords={},
+  pdfsubject={},
+  pdfcreator={Emacs Org-mode version 7.8.02}}
 
-*Presentation notes*  \hfill
-*Clojure/West*: March 19, 2013 \\ \hline \\ \\ \vspace{15pt}
+\begin{document}
+
+
+
+
+\renewcommand{\name}[1]{\textcolor{blue}{{\bf #1}}}
+\renewcommand{\team}[1]{\textcolor{red}{{\bf #1}}}
+\setlength{\parindent}{0in}
+
+\textbf{Presentation notes}  \hfill
+\textbf{Clojure/West}: March 19, 2013 \\ \hline \\ \\ \vspace{15pt}
 
 \doublespacing
 
@@ -30,7 +59,7 @@ for this application.\\
 
 First, I'll make a pitch for why we should care about monitoring
 deforestation, especially in an open way.  Deforestation accounts for
-12% of annual greenhouse gas emissions, nearly as much as the global
+12\% of annual greenhouse gas emissions, nearly as much as the global
 transportation sector (planes, trains, and automobiles).  Any viable
 effort to mitigate climate change will have to address deforestation.
 This poses an ever increasing problem, though, since tropical
@@ -46,8 +75,8 @@ countries.  As the measure increases, the number of countries that
 must be at the negotiating table must also increase --- and the edges
 between between the countries (or bilateral negotiations) increases
 exponentially.  Whereas in 2008, Brazil and Indonesia accounted for
-the majority of tropical deforestation --- or about 60% --- the two
-countries only account for about 40% today.  The complexity of any
+the majority of tropical deforestation --- or about 60\% --- the two
+countries only account for about 40\% today.  The complexity of any
 comprehensive conservation program increases at an order commensurate
 with the number of bilateral negotiations.  And large, cumbersome
 bureaucracies like the United Nations don't deal well with complexity.  \\
@@ -138,7 +167,7 @@ first, the lowest comes second, and the middle comes last occurs just
 once.  We have found that these reasonably difficult concepts in
 information theory, time series processing, and even game theory, can
 be expressed so clearly and compactly in Clojure. We spend less time
-wrangling the code and more time concentrating on that which /should/
+wrangling the code and more time concentrating on that which \emph{should}
 be hard -- the mathematical properties of the estimators.  In fact,
 the simplicity of the code sometimes reveals concepts that we handn't
 thought about before.  It's very cool.  It's a very fun language.\\
@@ -176,7 +205,7 @@ for this dimension; but you can see that it is merely a generalization
 of the two simpler cases.\\
 
 Likewise, mapping across partitions of an n-dimensional array is also
-a generalization, which we use for ... well, I haven't found a
+a generalization, which we use for \ldots{} well, I haven't found a
 reasonable, real-life use case.  But it's possible to compute, I
 guess.  And I love that the constraint isn't the code but rather my
 own lack of creativity.\\
@@ -233,3 +262,5 @@ Again everything is open source.  And this is what we've got: An easy,
 easy way to visualize the data.  A way that anyone can view,
 interpret, and analyze.  \\
 
+
+\end{document}
